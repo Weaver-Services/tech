@@ -1,3 +1,4 @@
+
 <!doctype html>
 <html lang="en">
 <head>
@@ -128,6 +129,7 @@
   }
   .cap-exp  { border-color: #7c3aed; background: #faf8ff; }
   .cap-dom  { border-color: #ea580c; background: #fffbf5; }
+  .cap-com  { border-color: #0e7490; background: #f0fafb; }
   .cap-di   { border-color: #086735; background: #f3f9f4; }
   .cap-plat { border-color: #0284c7; background: #f5faff; }
   .cap-fac  { border-color: #0F1B2D; background: #f7f8f9; }
@@ -258,7 +260,7 @@
 
   <h2>Our technology architecture</h2>
 
-  <p>This is the full picture. Six capabilities, each with a clear reason for being separate. Agents cut across all of them as orchestration. Product defines what to build; the factory generates it; platform runs it; domain services, decision intelligence, and experience deliver it.</p>
+  <p>This is the full picture. Product defines what to build. The factory generates it. Platform runs it. Domain services handle business-specific logic, common services provide shared capabilities across domains, decision intelligence produces signals, and experience surfaces it all to users. Agents orchestrate across every layer.</p>
 
   <div class="diagram">
 <svg viewBox="0 0 900 620" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Technology architecture: six capabilities, agents, and the factory">
@@ -294,12 +296,18 @@
   <text x="180" y="364" font-family="system-ui,sans-serif" font-size="13" fill="#166534" text-anchor="middle">analytics &middot; MIS &middot; decisions</text>
   <text x="180" y="406" font-family="system-ui,sans-serif" font-size="11" fill="#047857" text-anchor="middle" font-weight="600">DI TEAM</text>
 
-  <rect x="330" y="262" width="240" height="160" rx="12" fill="#fff7ed" stroke="#fdba74"/>
-  <text x="450" y="296" font-family="system-ui,sans-serif" font-size="18" fill="#7c2d12" text-anchor="middle" font-weight="700">Domain Services</text>
-  <text x="450" y="322" font-family="system-ui,sans-serif" font-size="13" fill="#9a3412" text-anchor="middle">LOS &middot; Lead &middot; BRE &middot; LMS</text>
-  <text x="450" y="343" font-family="system-ui,sans-serif" font-size="13" fill="#9a3412" text-anchor="middle">KYC &middot; IAM &middot; Payment</text>
-  <text x="450" y="364" font-family="system-ui,sans-serif" font-size="13" fill="#9a3412" text-anchor="middle">Workflow &middot; Collections &middot; Comms</text>
-  <text x="450" y="406" font-family="system-ui,sans-serif" font-size="11" fill="#c2410c" text-anchor="middle" font-weight="600">DOMAIN TEAMS</text>
+  <!-- Domain Services (top of center column) -->
+  <rect x="330" y="262" width="240" height="88" rx="12" fill="#fff7ed" stroke="#fdba74"/>
+  <text x="450" y="290" font-family="system-ui,sans-serif" font-size="16" fill="#7c2d12" text-anchor="middle" font-weight="700">Domain Services</text>
+  <text x="450" y="310" font-family="system-ui,sans-serif" font-size="12" fill="#9a3412" text-anchor="middle">LOS &middot; Lead &middot; LMS &middot; KYC</text>
+  <text x="450" y="328" font-family="system-ui,sans-serif" font-size="12" fill="#9a3412" text-anchor="middle">Collections &middot; Payment &middot; Onboarding</text>
+  <text x="450" y="344" font-family="system-ui,sans-serif" font-size="10" fill="#c2410c" text-anchor="middle" font-weight="600">DOMAIN TEAMS</text>
+
+  <!-- Common Services (bottom of center column) -->
+  <rect x="330" y="358" width="240" height="64" rx="12" fill="#ecfeff" stroke="#67e8f9"/>
+  <text x="450" y="382" font-family="system-ui,sans-serif" font-size="16" fill="#164e63" text-anchor="middle" font-weight="700">Common Services</text>
+  <text x="450" y="400" font-family="system-ui,sans-serif" font-size="12" fill="#155e75" text-anchor="middle">DMS &middot; BRE &middot; IAM &middot; Workflow</text>
+  <text x="450" y="416" font-family="system-ui,sans-serif" font-size="12" fill="#155e75" text-anchor="middle">Communication &middot; External APIs</text>
 
   <rect x="600" y="262" width="240" height="160" rx="12" fill="#f5f3ff" stroke="#c4b5fd"/>
   <text x="720" y="296" font-family="system-ui,sans-serif" font-size="18" fill="#4c1d95" text-anchor="middle" font-weight="700">App &amp; Web Experience</text>
@@ -407,10 +415,18 @@
   <!-- Domain Services -->
   <div class="cap cap-dom">
     <h3>Domain Services</h3>
-    <p>Business capability services: LOS, lead management, BRE, collections, expense management, KYC, user service, IAM, customer service, user onboarding, incentive and payout, payment, workflow, external API layer, communication, and loan management.</p>
-    <p>These are not random APIs. They execute business capabilities. They provide contracts. They expose actions. They emit events. They connect what users experience with what the business knows.</p>
+    <p>Business-specific services tied to the lending lifecycle: LOS, lead management, collections, KYC, customer service, user onboarding, incentive and payout, payment, expense management, and loan management.</p>
+    <p>Each service owns a specific business capability. It provides contracts, exposes actions, emits events, and connects what users experience with what the business knows. A domain service has a clear owner, a clear lifecycle, and changes on business timelines.</p>
     <div class="why"><strong>Why a dedicated team:</strong> Each domain &mdash; lending origination, identity verification, payments, collections &mdash; has its own rules, regulations, lifecycle, and rate of change. A change to the KYC flow should not require coordinating with the payment team. Organising around domains keeps change local and accountability clear.</div>
     <p class="ref">In 2002, Jeff Bezos issued what became Amazon's API mandate: every team must expose its data and functionality through service interfaces. No direct database reads, no shortcuts. That principle &mdash; every business capability is an independent service with a contract &mdash; is foundational to how we structure our domain layer.</p>
+  </div>
+
+  <!-- Common Services -->
+  <div class="cap cap-com">
+    <h3>Common Services</h3>
+    <p>Cross-cutting services consumed by multiple domains: document management system (DMS), business rules engine (BRE), identity and access management (IAM), workflow engine, communication service, and external API layer.</p>
+    <p>These services belong to no single domain but serve them all. BRE evaluates rules for origination, collections, and onboarding. IAM authenticates across every surface. The workflow engine powers processes in LOS, collections, and customer service. DMS stores and retrieves documents for every journey. Communication sends notifications across every lifecycle stage.</p>
+    <div class="why"><strong>Why a distinct layer:</strong> Common services sit between platform and domain &mdash; they are application-level shared capabilities. Without this layer, each domain builds its own document storage, its own notification system, its own rules engine. That means duplication, inconsistency, and divergence. A single BRE, a single workflow engine, a single DMS consumed by all domains ensures that shared logic is maintained once and governed consistently. This layer does not have a dedicated team &mdash; engineers from a common pool are assigned to build and manage these services. With AI-assisted development, this model scales: fewer people, more services, maintained effectively.</div>
   </div>
 
   <!-- Decision Intelligence -->
@@ -642,11 +658,11 @@
   <p>Application testing, journey-level integration testing, data quality, model validation, agent evaluation, infra reliability checks, and factory verifiers are different disciplines. Each requires different tools, different expertise, and a different understanding of what failure looks like.</p>
 
   <div class="diagram">
-<svg viewBox="0 0 900 320" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Quality distributed by layer: each team owns quality for their capability">
-  <rect x="20" y="12" width="860" height="296" rx="14" fill="#fff" stroke="#e2e8f0"/>
+<svg viewBox="0 0 900 368" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Quality distributed by layer: each team owns quality for their capability">
+  <rect x="20" y="12" width="860" height="344" rx="14" fill="#fff" stroke="#e2e8f0"/>
   <text x="450" y="44" font-family="system-ui,sans-serif" font-size="16" fill="#0F1B2D" text-anchor="middle" font-weight="700">Each team owns the quality discipline for their capability</text>
 
-  <rect x="50" y="64" width="14" height="36" rx="4" fill="#b45309"/>
+  <rect x="50" y="64" width="14" height="36" rx="4" fill="#a8780a"/>
   <text x="78" y="82" font-family="system-ui,sans-serif" font-size="14" fill="#0F1B2D" font-weight="700">Product</text>
   <text x="78" y="96" font-family="system-ui,sans-serif" font-size="12" fill="#64748b">spec completeness, prototype fidelity, PRD-to-test-case traceability</text>
 
@@ -658,13 +674,17 @@
   <text x="78" y="178" font-family="system-ui,sans-serif" font-size="14" fill="#0F1B2D" font-weight="700">Domain Services</text>
   <text x="78" y="192" font-family="system-ui,sans-serif" font-size="12" fill="#64748b">contract testing, integration testing, regulatory compliance checks</text>
 
-  <rect x="50" y="208" width="14" height="36" rx="4" fill="#059669"/>
-  <text x="78" y="226" font-family="system-ui,sans-serif" font-size="14" fill="#0F1B2D" font-weight="700">Decision Intelligence</text>
-  <text x="78" y="240" font-family="system-ui,sans-serif" font-size="12" fill="#64748b">model validation, data quality, signal accuracy, drift detection</text>
+  <rect x="50" y="208" width="14" height="36" rx="4" fill="#0e7490"/>
+  <text x="78" y="226" font-family="system-ui,sans-serif" font-size="14" fill="#0F1B2D" font-weight="700">Common Services</text>
+  <text x="78" y="240" font-family="system-ui,sans-serif" font-size="12" fill="#64748b">cross-domain contract testing, shared rules validation, workflow integrity</text>
 
-  <rect x="50" y="256" width="14" height="36" rx="4" fill="#0284c7"/>
-  <text x="78" y="274" font-family="system-ui,sans-serif" font-size="14" fill="#0F1B2D" font-weight="700">Platform</text>
-  <text x="78" y="288" font-family="system-ui,sans-serif" font-size="12" fill="#64748b">infra reliability, pipeline integrity, data layer health, security posture</text>
+  <rect x="50" y="256" width="14" height="36" rx="4" fill="#086735"/>
+  <text x="78" y="274" font-family="system-ui,sans-serif" font-size="14" fill="#0F1B2D" font-weight="700">Decision Intelligence</text>
+  <text x="78" y="288" font-family="system-ui,sans-serif" font-size="12" fill="#64748b">model validation, data quality, signal accuracy, drift detection</text>
+
+  <rect x="50" y="304" width="14" height="36" rx="4" fill="#0284c7"/>
+  <text x="78" y="322" font-family="system-ui,sans-serif" font-size="14" fill="#0F1B2D" font-weight="700">Platform</text>
+  <text x="78" y="336" font-family="system-ui,sans-serif" font-size="12" fill="#64748b">infra reliability, pipeline integrity, data layer health, security posture</text>
 </svg>
 </div>
 
@@ -689,8 +709,8 @@
   <p>All capabilities run in parallel. What changes over time is where the weight is.</p>
 
   <div class="diagram">
-<svg viewBox="0 0 900 490" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Engineering investment intensity across capabilities over time">
-  <rect x="20" y="15" width="860" height="460" rx="16" fill="#fff" stroke="#e2e8f0"/>
+<svg viewBox="0 0 900 535" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Engineering investment intensity across capabilities over time">
+  <rect x="20" y="15" width="860" height="506" rx="16" fill="#fff" stroke="#e2e8f0"/>
 
   <text x="450" y="52" font-family="system-ui,sans-serif" font-size="20" fill="#0F1B2D" text-anchor="middle" font-weight="700">All layers active now. The weight shifts over time.</text>
 
@@ -700,49 +720,55 @@
   <text x="750" y="90" font-family="system-ui,sans-serif" font-size="13" fill="#64748b" text-anchor="middle" font-weight="600">OVER TIME</text>
 
   <!-- Product -->
-  <text x="220" y="130" font-family="system-ui,sans-serif" font-size="14" fill="#0F1B2D" text-anchor="end" font-weight="600">Product</text>
-  <rect x="300" y="115" width="130" height="22" rx="4" fill="#b45309" opacity="0.7"/>
-  <rect x="480" y="115" width="130" height="22" rx="4" fill="#b45309" opacity="0.7"/>
-  <rect x="660" y="115" width="130" height="22" rx="4" fill="#b45309" opacity="0.7"/>
+  <text x="220" y="128" font-family="system-ui,sans-serif" font-size="14" fill="#0F1B2D" text-anchor="end" font-weight="600">Product</text>
+  <rect x="300" y="113" width="130" height="22" rx="4" fill="#a8780a" opacity="0.7"/>
+  <rect x="480" y="113" width="130" height="22" rx="4" fill="#a8780a" opacity="0.7"/>
+  <rect x="660" y="113" width="130" height="22" rx="4" fill="#a8780a" opacity="0.7"/>
 
   <!-- Experience -->
-  <text x="220" y="175" font-family="system-ui,sans-serif" font-size="14" fill="#0F1B2D" text-anchor="end" font-weight="600">App &amp; Web Experience</text>
-  <rect x="300" y="160" width="170" height="22" rx="4" fill="#7c3aed" opacity="0.8"/>
-  <rect x="480" y="160" width="130" height="22" rx="4" fill="#7c3aed" opacity="0.55"/>
-  <rect x="660" y="160" width="75" height="22" rx="4" fill="#7c3aed" opacity="0.35"/>
+  <text x="220" y="172" font-family="system-ui,sans-serif" font-size="14" fill="#0F1B2D" text-anchor="end" font-weight="600">App &amp; Web Experience</text>
+  <rect x="300" y="157" width="170" height="22" rx="4" fill="#7c3aed" opacity="0.8"/>
+  <rect x="480" y="157" width="130" height="22" rx="4" fill="#7c3aed" opacity="0.55"/>
+  <rect x="660" y="157" width="75" height="22" rx="4" fill="#7c3aed" opacity="0.35"/>
 
   <!-- Domain -->
-  <text x="220" y="220" font-family="system-ui,sans-serif" font-size="14" fill="#0F1B2D" text-anchor="end" font-weight="600">Domain Services</text>
-  <rect x="300" y="205" width="170" height="22" rx="4" fill="#ea580c" opacity="0.85"/>
-  <rect x="480" y="205" width="130" height="22" rx="4" fill="#ea580c" opacity="0.55"/>
-  <rect x="660" y="205" width="75" height="22" rx="4" fill="#ea580c" opacity="0.35"/>
+  <text x="220" y="216" font-family="system-ui,sans-serif" font-size="14" fill="#0F1B2D" text-anchor="end" font-weight="600">Domain Services</text>
+  <rect x="300" y="201" width="170" height="22" rx="4" fill="#ea580c" opacity="0.85"/>
+  <rect x="480" y="201" width="130" height="22" rx="4" fill="#ea580c" opacity="0.55"/>
+  <rect x="660" y="201" width="75" height="22" rx="4" fill="#ea580c" opacity="0.35"/>
+
+  <!-- Common Services -->
+  <text x="220" y="260" font-family="system-ui,sans-serif" font-size="14" fill="#0F1B2D" text-anchor="end" font-weight="600">Common Services</text>
+  <rect x="300" y="245" width="140" height="22" rx="4" fill="#0e7490" opacity="0.7"/>
+  <rect x="480" y="245" width="120" height="22" rx="4" fill="#0e7490" opacity="0.6"/>
+  <rect x="660" y="245" width="85" height="22" rx="4" fill="#0e7490" opacity="0.45"/>
 
   <!-- Platform -->
-  <text x="220" y="265" font-family="system-ui,sans-serif" font-size="14" fill="#0F1B2D" text-anchor="end" font-weight="600">Platform</text>
-  <rect x="300" y="250" width="150" height="22" rx="4" fill="#0284c7" opacity="0.7"/>
-  <rect x="480" y="250" width="140" height="22" rx="4" fill="#0284c7" opacity="0.65"/>
-  <rect x="660" y="250" width="110" height="22" rx="4" fill="#0284c7" opacity="0.55"/>
+  <text x="220" y="304" font-family="system-ui,sans-serif" font-size="14" fill="#0F1B2D" text-anchor="end" font-weight="600">Platform</text>
+  <rect x="300" y="289" width="150" height="22" rx="4" fill="#0284c7" opacity="0.7"/>
+  <rect x="480" y="289" width="140" height="22" rx="4" fill="#0284c7" opacity="0.65"/>
+  <rect x="660" y="289" width="110" height="22" rx="4" fill="#0284c7" opacity="0.55"/>
 
   <!-- DI -->
-  <text x="220" y="310" font-family="system-ui,sans-serif" font-size="14" fill="#0F1B2D" text-anchor="end" font-weight="600">Decision Intelligence</text>
-  <rect x="300" y="295" width="75" height="22" rx="4" fill="#059669" opacity="0.45"/>
-  <rect x="480" y="295" width="130" height="22" rx="4" fill="#059669" opacity="0.65"/>
-  <rect x="660" y="295" width="170" height="22" rx="4" fill="#059669" opacity="0.85"/>
+  <text x="220" y="348" font-family="system-ui,sans-serif" font-size="14" fill="#0F1B2D" text-anchor="end" font-weight="600">Decision Intelligence</text>
+  <rect x="300" y="333" width="75" height="22" rx="4" fill="#086735" opacity="0.45"/>
+  <rect x="480" y="333" width="130" height="22" rx="4" fill="#086735" opacity="0.65"/>
+  <rect x="660" y="333" width="170" height="22" rx="4" fill="#086735" opacity="0.85"/>
 
   <!-- Agents -->
-  <text x="220" y="355" font-family="system-ui,sans-serif" font-size="14" fill="#0F1B2D" text-anchor="end" font-weight="600">Agents</text>
-  <rect x="300" y="340" width="55" height="22" rx="4" fill="#1e3a8a" opacity="0.4"/>
-  <rect x="480" y="340" width="110" height="22" rx="4" fill="#1e3a8a" opacity="0.6"/>
-  <rect x="660" y="340" width="170" height="22" rx="4" fill="#1e3a8a" opacity="0.85"/>
+  <text x="220" y="392" font-family="system-ui,sans-serif" font-size="14" fill="#0F1B2D" text-anchor="end" font-weight="600">Agents</text>
+  <rect x="300" y="377" width="55" height="22" rx="4" fill="#1e3a8a" opacity="0.4"/>
+  <rect x="480" y="377" width="110" height="22" rx="4" fill="#1e3a8a" opacity="0.6"/>
+  <rect x="660" y="377" width="170" height="22" rx="4" fill="#1e3a8a" opacity="0.85"/>
 
   <!-- Factory -->
-  <text x="220" y="400" font-family="system-ui,sans-serif" font-size="14" fill="#0F1B2D" text-anchor="end" font-weight="600">Software Factory</text>
-  <rect x="300" y="385" width="50" height="22" rx="4" fill="#0F1B2D" opacity="0.4"/>
-  <rect x="480" y="385" width="95" height="22" rx="4" fill="#0F1B2D" opacity="0.55"/>
-  <rect x="660" y="385" width="170" height="22" rx="4" fill="#0F1B2D" opacity="0.85"/>
+  <text x="220" y="436" font-family="system-ui,sans-serif" font-size="14" fill="#0F1B2D" text-anchor="end" font-weight="600">Software Factory</text>
+  <rect x="300" y="421" width="50" height="22" rx="4" fill="#0F1B2D" opacity="0.4"/>
+  <rect x="480" y="421" width="95" height="22" rx="4" fill="#0F1B2D" opacity="0.55"/>
+  <rect x="660" y="421" width="170" height="22" rx="4" fill="#0F1B2D" opacity="0.85"/>
 
   <!-- Annotation -->
-  <text x="450" y="448" font-family="system-ui,sans-serif" font-size="13" fill="#64748b" text-anchor="middle">foundations stabilise &#8594; weight shifts to intelligence, orchestration, and factory</text>
+  <text x="450" y="490" font-family="system-ui,sans-serif" font-size="13" fill="#64748b" text-anchor="middle">foundations stabilise &#8594; weight shifts to intelligence, orchestration, and factory</text>
 </svg>
 </div>
   <div class="caption">Nothing starts or stops. The system matures as a whole. Product stays consistently active throughout &mdash; always defining what comes next.</div>
